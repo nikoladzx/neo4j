@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[7.0.2, )"
             },
+            "Neo4jClient": {
+              "target": "Package",
+              "version": "[5.1.15, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
