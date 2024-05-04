@@ -90,5 +90,28 @@ namespace WebApplication1.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete]
+        [Route("DeleteCafe/{name}")]
+        public async Task<IActionResult> DeleteCafe(string name)
+        {
+            var cafe = await _client.Cypher.Match("(c:Cafe)")
+                                           .Where((Cafe c) => c.Name == name)
+                                           .Return(c => c.As<Cafe>())
+                                           .ResultsAsync;
+            if (!cafe.Any())
+            {
+                return StatusCode(202, "Cafe not found");
+            }
+
+            await _client.Cypher.Match("(c:Cafe)")
+                                            .Where((Cafe c) => c.Name == name)
+                                            .DetachDelete("c")
+                                            .ExecuteWithoutResultsAsync();
+
+            return Ok("Deleted");
+
+
+        }
     }
 }

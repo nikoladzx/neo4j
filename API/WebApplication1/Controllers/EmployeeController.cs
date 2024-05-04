@@ -17,13 +17,37 @@ namespace WebApplication1.Controllers
         [Route("EditEmployeeSalary/{email}/{salary}")]
         public async Task<IActionResult> EditEmployeeSalary(string email, int salary)
         {
-            await _client.Cypher
+            var employee = await _client.Cypher
                 .Match("(e:Employee)")
                 .Where("e.Email=$email")
                 .Set("e.Salary=$salary")
                 .WithParams(new { email, salary })
-                .ExecuteWithoutResultsAsync();
-            return Ok();
+                .Return(e => e.As<Employee>())
+                .ResultsAsync;
+            return Ok(employee);
+
+        }
+
+        [HttpDelete]
+        [Route("DeleteEmployee/{email}")]
+        public async Task<IActionResult> DeleteEmployee(string email)
+        {
+            var employee = await _client.Cypher.Match("(e:Employee)")
+                                           .Where((Employee e) => e.Email == email)
+                                           .Return(e => e.As<Employee>())
+                                           .ResultsAsync;
+            if (!employee.Any())
+            {
+                return StatusCode(202, "Employee not found");
+            }
+
+            await _client.Cypher.Match("(e:Employee)")
+                                            .Where((Employee e) => e.Email == email)
+                                            .DetachDelete("e")
+                                            .ExecuteWithoutResultsAsync();
+
+            return Ok("Deleted");
+
 
         }
     }

@@ -23,6 +23,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5173", "http://localhost:5174");
+});
+
 app.UseAuthorization();
 
 app.MapControllers();

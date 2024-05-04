@@ -29,6 +29,28 @@ namespace WebApplication1.Controllers
 
 
         }
+        [HttpDelete]
+        [Route("DeleteMember/{username}")]
+        public async Task<IActionResult> DeleteMember(string username)
+        {
+             var member = await _client.Cypher.Match("(m:Member)")
+                                            .Where((Member m) => m.Username == username)
+                                            .Return(m=> m.As<Member>())
+                                            .ResultsAsync;
+            if (!member.Any())
+            {
+                return StatusCode(202, "Member not found");
+            }
+
+            await _client.Cypher.Match("(m:Member)")
+                                            .Where((Member m) => m.Username == username)
+                                            .DetachDelete("m")
+                                            .ExecuteWithoutResultsAsync() ;
+
+            return Ok("Deleted");
+
+
+        }
 
         [HttpPost]
         [Route("RegisterMember/{username}/{password}")]
@@ -58,13 +80,15 @@ namespace WebApplication1.Controllers
         [Route("AddCredits/{username}/{credits}")]
         public async Task<IActionResult> AddCredits(string username, int credits)
         {
-            await _client.Cypher
+            var cr = await _client.Cypher
                 .Match("(m:Member)")
                 .Where("m.Username=$username")
                 .Set("m.Credits=$credits+m.Credits")
                 .WithParams(new { username, credits })
-                .ExecuteWithoutResultsAsync();
-            return Ok();
+                .Return(m => m.As<Member>())
+                .ResultsAsync;
+            
+            return Ok(cr);
 
         }
     }
