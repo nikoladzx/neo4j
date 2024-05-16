@@ -2,14 +2,22 @@ import { Box, Button, Grid, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import api from "../API/api";
 import { ChangeEvent, useState } from "react";
+import { Cafe } from "./cafe";
 
-
-export default function NewCafe()
+interface Props {
+    cafes: Cafe[];
+    setCafes : React.Dispatch<React.SetStateAction<[] | Cafe[]>>;
+ 
+}
+export default function NewCafe({cafes, setCafes} : Props)
 {
     const [address, setAddress] = useState("");
     const [name, setName] = useState("");
     function addCafe(): void {
         api.Cafe.addCafe(name, address)
+        .then(r => {
+            const newCafe = { name: r.name, address: r.address };
+            setCafes([...cafes, newCafe])})
         .catch(e => console.log(e))
     }
 

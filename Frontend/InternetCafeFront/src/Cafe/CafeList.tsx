@@ -4,6 +4,7 @@ import api from "../API/api";
 import { Grid } from "@mui/material";
 import CafeCard from "./CafeCard";
 import NewCafe from "./NewCafe";
+import Header from "../Header/Header";
 
 export default function CafeList()
 {
@@ -13,11 +14,12 @@ export default function CafeList()
             api.Cafe.getCafes().then((data)=>setCafes(data))
             .catch((error)=>console.log(error));
         },[cafes])
-        console.log(cafes);
+
         return (
-            <Grid container spacing ={4}>
+            <Grid container spacing ={2} sx = {{ display: 'flex', justifyContent: 'center', alignItems: 'center'  }}>
+                <Header/>
             <Grid item xs={12} sx = {{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <NewCafe/>
+                <NewCafe cafes = {cafes} setCafes = {setCafes}/>
                 </Grid>
                     {cafes.map(c => 
                         

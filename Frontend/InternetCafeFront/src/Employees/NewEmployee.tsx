@@ -3,9 +3,14 @@ import AddIcon from '@mui/icons-material/Add';
 import api from "../API/api";
 import { ChangeEvent, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Employee } from "./employee";
 
+interface Props {
+    employees: Employee[];
+    setEmployees:React.Dispatch<React.SetStateAction<[] | Employee[]>>;
+}
 
-export default function NewEmployee()
+export default function NewEmployee({employees, setEmployees} : Props)
 {   const {cafename} = useParams();
     
     const [salary, setSalary] = useState(0);
@@ -14,6 +19,12 @@ export default function NewEmployee()
     const [email, setEmail] = useState("");
     function addEmployee(): void {
         api.Cafe.addEmployee(cafename!, name, salary, age, email)
+        .then(r=>
+            {
+                const newEmployee ={name : r.name,salary : r.salary,age : r.age,email : r.age,cafename : r.cafename};
+                setEmployees([...employees, newEmployee]);
+            }
+        )
         .catch(e => console.log(e))
     }
 

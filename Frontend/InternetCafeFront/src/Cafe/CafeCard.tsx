@@ -13,7 +13,6 @@ interface Props {
 
 export default function CafeCard({cafe} : Props)
 {
-    console.log(cafe.name);
   function handleDelete(): void {
     api.Cafe.deleteCafe(cafe.name)
     .catch(e=>console.log(e))

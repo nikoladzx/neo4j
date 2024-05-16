@@ -65,7 +65,7 @@ namespace WebApplication1.Controllers
                 await _client.Cypher.Create("(b:Employee {Name:$name,Salary:$salary, Age:$age, Email:$email, CafeName:$cafename})")
                                     .WithParams(new { name, salary, age, email, cafename })
                                     .ExecuteWithoutResultsAsync();
-                return Ok();
+                return Ok(new { name, salary, age, email, cafename });
             }
 
             return BadRequest();
@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
                 await _client.Cypher.Create("(b:Cafe {Name:$name,Address:$address})")
                                     .WithParams(new { name, address })
                                     .ExecuteWithoutResultsAsync();
-                return Ok();
+                return Ok(new { name, address });
             }
 
             return BadRequest();

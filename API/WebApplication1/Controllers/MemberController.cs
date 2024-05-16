@@ -70,7 +70,8 @@ namespace WebApplication1.Controllers
                 await _client.Cypher.Create("(b:Member {Username:$username,Password:$password, Credits:$credits})")
                                     .WithParams(queryDict)
                                     .ExecuteWithoutResultsAsync();
-                return Ok();
+                int credits = 0;
+                return Ok(new {username, password, credits});
             }
 
             return BadRequest();

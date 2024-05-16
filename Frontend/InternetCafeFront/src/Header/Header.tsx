@@ -8,9 +8,10 @@ import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 
-const pages = ['Cafes', 'Members', 'Employees'];
+const pages = ['Cafes', 'Members'];
 
 
 function Header() {
@@ -30,6 +31,7 @@ function Header() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
           <Typography
             variant="h6"
             noWrap
@@ -47,6 +49,7 @@ function Header() {
           >
             LOGO
           </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -104,6 +107,7 @@ function Header() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <Link to={"/" + page} style={{ textDecoration: 'none', color: 'inherit' }}>
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -111,6 +115,7 @@ function Header() {
               >
                 {page}
               </Button>
+              </Link>
             ))}
           </Box>
 

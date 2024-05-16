@@ -2,14 +2,23 @@ import { Box, Button, Grid, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import api from "../API/api";
 import { ChangeEvent, useState } from "react";
+import { Member } from "./member";
 
+interface Props {
+    members : Member[];
+    setMembers: React.Dispatch<React.SetStateAction<[] | Member[]>>;
+}
 
-export default function NewMember()
+export default function NewMember({members, setMembers} : Props)
 {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     function addMember(): void {
         api.Member.addMember(username, password)
+        .then(r => {
+            const newMember = {username : r.username, password : r.password, credits: r.credits};
+            setMembers([...members, newMember]);
+        })
         .catch(e => console.log(e))
     }
 
