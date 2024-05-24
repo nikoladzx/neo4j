@@ -6,4 +6,4 @@ Za pokretanje klijentske strane potrebno je pozicionirati se u frontend/client f
 
 npm install  
 npm install axios
-npm run dev 
+npm run dev
