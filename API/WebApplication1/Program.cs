@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var client = new BoltGraphClient(new Uri("bolt://localhost:7687"), "neo4j", "bn4j");
+var client = new BoltGraphClient(new Uri("bolt://localhost:7687"), "neo4j", "neo4jneo4j");
 client.ConnectAsync();
 builder.Services.AddSingleton<IGraphClient>(client);
 
